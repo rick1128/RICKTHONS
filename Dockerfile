@@ -1,13 +1,9 @@
-FROM rickthon/userbot:slim-buster
+FROM python:3.8-slim-buster
+WORKDIR /app
 
-#clonning repo 
-RUN git clone https://github.com/rick1128/rick.git /root/jepthon
-#working directory 
-WORKDIR /root/jepthon
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
 
-# Install requirements
-RUN pip3 install --no-cache-dir -r requirements.txt
+COPY . .
 
-ENV PATH="/home/userbot/bin:$PATH"
-
-CMD ["python3","-m","jepthon"]
+CMD ["bash","start"]
