@@ -1,2 +1,2 @@
-worker: bash RickThon
-web: bash RickThon
+worker: bash start
+web: bash start
