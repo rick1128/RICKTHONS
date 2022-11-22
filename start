@@ -6,7 +6,7 @@ _get_ziplink () {
     regex='(https?)://github.com/.+/.+'
     if [[ $UPSTREAM_REPO == "rick" ]]
     then
-        echo "aHR0cHM6Ly9naXRodWIuY29tL3JpY2sxMTI4L3JpY2svYXJjaGl2ZS9tYXN0ZXIuemlw==" | base64 -d
+        echo "aHR0cHM6Ly9naXRodWIuY29tL3JpY2sxMTI4L3JpY2s==" | base64 -d
     elif [[ $UPSTREAM_REPO =~ $regex ]]
     then
         if [[ $UPSTREAM_REPO_BRANCH ]]
@@ -16,7 +16,7 @@ _get_ziplink () {
             echo "${UPSTREAM_REPO}/archive/master.zip"
         fi
     else
-        echo "aHR0cHM6Ly9naXRodWIuY29tL3JpY2sxMTI4L3JpY2svYXJjaGl2ZS9tYXN0ZXIuemlw==" | base64 -d
+        echo "aHR0cHM6Ly9naXRodWIuY29tL3JpY2sxMTI4L3JpY2s==" | base64 -d
     fi
 }
 
@@ -26,12 +26,12 @@ _get_repolink () {
     regex='(https?)://github.com/.+/.+'
     if [[ $UPSTREAM_REPO == "rick" ]]
     then
-        rlink=`echo "aHR0cHM6Ly9naXRodWIuY29tL3JpY2sxMTI4L3JpY2suZ2l0==" | base64 -d`
+        rlink=`echo "aHR0cHM6Ly9naXRodWIuY29tL3JpY2sxMTI4L3JpY2suZ2l0 ==" | base64 -d`
     elif [[ $UPSTREAM_REPO =~ $regex ]]
     then
         rlink=`echo "${UPSTREAM_REPO}"`
     else
-        rlink=`echo "aHR0cHM6Ly9naXRodWIuY29tL3JpY2sxMTI4L3JpY2suZ2l0==" | base64 -d`
+        rlink=`echo "aHR0cHM6Ly9naXRodWIuY29tL3JpY2sxMTI4L3JpY2suZ2l0 ==" | base64 -d`
     fi
     echo "$rlink"
 }
@@ -66,16 +66,6 @@ repo.heads[ACTIVE_BRANCH_NAME].checkout(True) ')
 }
 
 _set_bot () {
-    echo "-----> Installing p7zip"
-    BUILD_DIR=$1
-    mkdir -p "$BUILD_DIR/vendor"
-    VENDOR_DIR="$BUILD_DIR/vendor"
-    curl "https://raw.githubusercontent.com/riganf/heroku-buildpack-p7zip/master/p7zip.tar.gz" -s -o - | tar xzf - -C "$VENDOR_DIR"
-    chmod 777 "$VENDOR_DIR/p7zip"
-    chmod 777 "$VENDOR_DIR/p7zip/bin/7zz"
-    PROFILE_PATH="$BUILD_DIR/.profile.d/7zz.sh"
-    mkdir -p $(dirname $PROFILE_PATH)
-    python3 setup/updater.py requirements.txt requirements.txt
     local zippath
     zippath="rick.zip"
     echo "جار تنزيل مكاتب السورس ✓"
@@ -90,11 +80,9 @@ _set_bot () {
     _run_catpack_git
     cd $CATPATH
     _run_cat_git
-    python3 setup/updater.py ../requirements.txt requirements.txt
+    python3 ../setup/updater.py ../requirements.txt requirements.txt
     chmod -R 755 bin
     echo "   ᯽︙ جارِ بدء سورس ريك ثون    "
-    echo "
-    "
     python3 -m jepthon
 }
 
